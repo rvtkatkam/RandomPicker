@@ -3,6 +3,7 @@ import companyLogo from './companyLogo.png'; // Import the image
 
 const RandomNamePicker = () => {
   const [inputText, setInputText] = useState('');
+  const [staffId, setStaffId] = useState('');
   const [shiftTimings, setShiftTimings] = useState('');
   const [names, setNames] = useState([]);
   const [randomName, setRandomName] = useState('');
@@ -11,13 +12,19 @@ const RandomNamePicker = () => {
     setInputText(event.target.value);
   };
 
+  const handleStaffIdChange = (event) => {
+    setStaffId(event.target.value);
+  };
+
   const handleShiftTimingsChange = (event) => {
     setShiftTimings(event.target.value);
   };
 
   const handleAddName = () => {
-    setNames([...names, `${inputText} - Shift: ${shiftTimings}`]);
+    const newNameEntry = `${staffId}: ${inputText} - Shift: ${shiftTimings}`;
+    setNames([...names, newNameEntry]);
     setInputText('');
+    setStaffId('');
     setShiftTimings('');
   };
 
@@ -39,30 +46,33 @@ const RandomNamePicker = () => {
       <div style={styles.inputContainer}>
         <input
           type="text"
-          placeholder="Enter a name"
+          placeholder="Enter staff ID"
+          value={staffId}
+          onChange={handleStaffIdChange}
+          style={styles.input}
+        />
+        <input
+          type="text"
+          placeholder="Enter staff name"
           value={inputText}
           onChange={handleInputChange}
           style={styles.input}
         />
         <input
           type="text"
-          placeholder="Enter shift timings"
+          placeholder="Enter shift/time"
           value={shiftTimings}
           onChange={handleShiftTimingsChange}
           style={styles.input}
         />
         <button onClick={handleAddName} style={styles.button}>
-          Add Name
+          ADD
         </button>
       </div>
-      <div style={styles.buttonContainer}>
-        <button onClick={handlePickRandomName} style={styles.button}>
-          Pick Random Name
-        </button>
-      </div>
+
       {names.length > 0 && (
         <div style={styles.listContainer}>
-          <h2 style={styles.listHeading}>Names added to the list:</h2>
+          <h2 style={styles.listHeading}>List of the names added:</h2>
           <ul style={styles.list}>
             {names.map((name, index) => (
               <li key={index} style={{ ...styles.listItem, margin: '0 auto' }}>
@@ -75,10 +85,21 @@ const RandomNamePicker = () => {
           </ul>
         </div>
       )}
-      {randomName && <p style={styles.randomName}>Randomly picked name: {randomName}</p>}
+      <div style={styles.resultContainer}>
+        <button onClick={handlePickRandomName} style={styles.button}>
+          Pick Random Name
+        </button>
+        {randomName && (
+          <div style={styles.resultItem}>
+            <span>{randomName}</span>
+
+          </div>
+        )}
+      </div>
     </div>
   );
 };
+
 
 
 
@@ -153,7 +174,7 @@ const styles = {
   // },
   listItem: {
     marginBottom: '16px',
-    padding: '12px',
+    padding: '6px',
     width: '100%', // Increase the width of the list item box
     display: 'flex',
     alignItems: 'center',
@@ -175,6 +196,23 @@ const styles = {
     marginTop: '20px',
     fontSize: '18px',
     color: '#333',
+  },
+  resultContainer: {
+    marginTop: '16px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+
+  resultItem: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    background: '#EEEDEB',
+    borderRadius: '4px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    padding: '12px',
+    margin: '8px 0',
   },
 };
 
