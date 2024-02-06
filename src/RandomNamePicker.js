@@ -48,20 +48,13 @@ const RandomNamePicker = () => {
   return (
     <div style={styles.container}>
       <img src={companyLogo} alt="Company Logo" style={styles.logo} />
-      <h1 style={styles.heading}>Random Name Picker</h1>
+      <h1 style={styles.heading}>Random Picker</h1>
       <div style={styles.inputContainer}>
         <input
           type="date"
           placeholder="Enter date"
           value={date}
           onChange={handleDateChange}
-          style={styles.input}
-        />
-        <input
-          type="text"
-          placeholder="Enter a name"
-          value={inputText}
-          onChange={handleInputChange}
           style={styles.input}
         />
         <input
@@ -73,18 +66,25 @@ const RandomNamePicker = () => {
         />
         <input
           type="text"
-          placeholder="Enter shift timings"
+          placeholder="Enter staff name"
+          value={inputText}
+          onChange={handleInputChange}
+          style={styles.input}
+        />
+        <input
+          type="text"
+          placeholder="Enter shift/time"
           value={shiftTimings}
           onChange={handleShiftTimingsChange}
           style={styles.input}
         />
         <button onClick={handleAddName} style={styles.button}>
-          Add Name
+          ADD
         </button>
       </div>
       {names.length > 0 && (
         <div style={styles.listContainer}>
-          <h2 style={styles.listHeading}>Names added to the list:</h2>
+          <h2 style={styles.listHeading}>List of names added:</h2>
           <ul style={styles.list}>
             {names.map((name, index) => (
               <li key={index} style={{ ...styles.listItem, margin: '0 auto' }}>
@@ -104,9 +104,6 @@ const RandomNamePicker = () => {
         {randomName && (
           <div style={styles.resultItem}>
             <span>{randomName}</span>
-            <button onClick={() => setRandomName('')} style={styles.deleteButton}>
-              Clear
-            </button>
           </div>
         )}
       </div>
