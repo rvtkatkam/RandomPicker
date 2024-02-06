@@ -5,6 +5,7 @@ const RandomNamePicker = () => {
   const [inputText, setInputText] = useState('');
   const [staffId, setStaffId] = useState('');
   const [shiftTimings, setShiftTimings] = useState('');
+  const [date, setDate] = useState('');
   const [names, setNames] = useState([]);
   const [randomName, setRandomName] = useState('');
 
@@ -20,12 +21,17 @@ const RandomNamePicker = () => {
     setShiftTimings(event.target.value);
   };
 
+  const handleDateChange = (event) => {
+    setDate(event.target.value);
+  };
+
   const handleAddName = () => {
-    const newNameEntry = `${staffId}: ${inputText} - Shift: ${shiftTimings}`;
+    const newNameEntry = `Date: ${date} | ${staffId}:${inputText} | Shift: ${shiftTimings}`;
     setNames([...names, newNameEntry]);
     setInputText('');
     setStaffId('');
     setShiftTimings('');
+    setDate('');
   };
 
   const handlePickRandomName = () => {
@@ -42,8 +48,22 @@ const RandomNamePicker = () => {
   return (
     <div style={styles.container}>
       <img src={companyLogo} alt="Company Logo" style={styles.logo} />
-      <h1 style={styles.heading}>Random Picker</h1>
+      <h1 style={styles.heading}>Random Name Picker</h1>
       <div style={styles.inputContainer}>
+        <input
+          type="date"
+          placeholder="Enter date"
+          value={date}
+          onChange={handleDateChange}
+          style={styles.input}
+        />
+        <input
+          type="text"
+          placeholder="Enter a name"
+          value={inputText}
+          onChange={handleInputChange}
+          style={styles.input}
+        />
         <input
           type="text"
           placeholder="Enter staff ID"
@@ -53,26 +73,18 @@ const RandomNamePicker = () => {
         />
         <input
           type="text"
-          placeholder="Enter staff name"
-          value={inputText}
-          onChange={handleInputChange}
-          style={styles.input}
-        />
-        <input
-          type="text"
-          placeholder="Enter shift/time"
+          placeholder="Enter shift timings"
           value={shiftTimings}
           onChange={handleShiftTimingsChange}
           style={styles.input}
         />
         <button onClick={handleAddName} style={styles.button}>
-          ADD
+          Add Name
         </button>
       </div>
-
       {names.length > 0 && (
         <div style={styles.listContainer}>
-          <h2 style={styles.listHeading}>List of the names added:</h2>
+          <h2 style={styles.listHeading}>Names added to the list:</h2>
           <ul style={styles.list}>
             {names.map((name, index) => (
               <li key={index} style={{ ...styles.listItem, margin: '0 auto' }}>
@@ -92,10 +104,15 @@ const RandomNamePicker = () => {
         {randomName && (
           <div style={styles.resultItem}>
             <span>{randomName}</span>
-
+            <button onClick={() => setRandomName('')} style={styles.deleteButton}>
+              Clear
+            </button>
           </div>
         )}
       </div>
+      <footer style={styles.footer}>
+        <p>&copy; 2024 rvtkatkam. All rights reserved.</p>
+      </footer>
     </div>
   );
 };
@@ -213,6 +230,12 @@ const styles = {
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     padding: '12px',
     margin: '8px 0',
+  },
+  footer: {
+    marginTop: 'auto', // Push the footer to the bottom
+    textAlign: 'center',
+    color: '#777',
+    padding: '16px',
   },
 };
 
