@@ -103,7 +103,8 @@ const RandomNamePicker = () => {
         </button>
         {randomName && (
           <div style={styles.resultItem}>
-            <span>{randomName}</span>
+            <span style={styles.resultLabel}>Winner:</span>
+            <span style={styles.resultName}>{randomName}</span>
           </div>
         )}
       </div>
@@ -200,7 +201,7 @@ const styles = {
   deleteButton: {
     padding: '8px 12px',
     cursor: 'pointer',
-    backgroundColor: '#ff3333',
+    backgroundColor: '#D04848',
     color: 'white',
     border: 'none',
     borderRadius: '4px',
@@ -222,11 +223,12 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    background: '#EEEDEB',
+    background: '#D04848',
+    color:'white',
     borderRadius: '4px',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     padding: '12px',
-    margin: '8px 0',
+    margin: '16px 0',
   },
   footer: {
     marginTop: 'auto', // Push the footer to the bottom
@@ -234,6 +236,15 @@ const styles = {
     color: '#777',
     padding: '16px',
   },
+
+resultLabel: {
+  marginRight: '8px',
+  fontWeight: 'bold',
+},
+
+resultName: {
+  flex: 1,
+},
 };
 
 export default RandomNamePicker;
