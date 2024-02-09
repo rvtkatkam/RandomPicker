@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { PDFDownloadLink} from '@react-pdf/renderer';
 import companyLogo from './companyLogo.png'; // Import the image
+import MyDocument from './MyDocument';
 
 const RandomNamePicker = () => {
   const [inputText, setInputText] = useState('');
@@ -26,7 +28,7 @@ const RandomNamePicker = () => {
   };
 
   const handleAddName = () => {
-    const newNameEntry = `Date: ${date} | ${staffId}:${inputText} | Shift: ${shiftTimings}`;
+    const newNameEntry = { date, name: inputText, staffId, shiftTimings };
     setNames([...names, newNameEntry]);
     setInputText('');
     setStaffId('');
@@ -87,8 +89,11 @@ const RandomNamePicker = () => {
           <h2 style={styles.listHeading}>List of names added:</h2>
           <ul style={styles.list}>
             {names.map((name, index) => (
-              <li key={index} style={{ ...styles.listItem, margin: '0 auto' }}>
-                <span>{name}</span>
+              <li key={index} style={styles.listItem}>
+                <span>Date: {name.date} |</span>
+                <span>Name: {name.name} |</span>
+                <span>Staff ID: {name.staffId} |</span>
+                <span>Shift: {name.shiftTimings}</span>
                 <button onClick={() => handleDeleteName(index)} style={styles.deleteButton}>
                   Delete
                 </button>
@@ -104,8 +109,15 @@ const RandomNamePicker = () => {
         {randomName && (
           <div style={styles.resultItem}>
             <span style={styles.resultLabel}>Winner:</span>
-            <span style={styles.resultName}>{randomName}</span>
+            <span style={styles.resultName}>Date: {randomName.date} | Name: {randomName.name} | StaffID: {randomName.staffId} | Shift: {randomName.shiftTimings}</span>
           </div>
+        )}
+        {randomName && (
+          <PDFDownloadLink document={<MyDocument names={names} winner={randomName}/>} fileName="GMR_BA_Test.pdf">
+            {({ loading }) =>
+              loading ? 'Loading document...' : <button style={styles.pdfButton}>Download PDF</button>
+            }
+          </PDFDownloadLink>
         )}
       </div>
       <footer style={styles.footer}>
@@ -114,9 +126,6 @@ const RandomNamePicker = () => {
     </div>
   );
 };
-
-
-
 
 const styles = {
   container: {
@@ -177,16 +186,6 @@ const styles = {
     listStyleType: 'none',
     padding: '0',
   },
-  // listItem: {
-  //   marginBottom: '10px',
-  //   display: 'flex',
-  //   alignItems: 'center',
-  //   justifyContent: 'space-between',
-  //   background: '#fff',
-  //   padding: '10px',
-  //   borderRadius: '4px',
-  //   boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-  // },
   listItem: {
     marginBottom: '16px',
     padding: '6px',
@@ -245,6 +244,15 @@ resultLabel: {
 resultName: {
   flex: 1,
 },
+pdfButton: {
+    backgroundColor: '#007bff',
+    padding: '10px',
+    cursor: 'pointer',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    fontSize: '16px',
+  },
 };
 
 export default RandomNamePicker;
