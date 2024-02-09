@@ -1,5 +1,6 @@
 import React from 'react';
-import {Page, Text, Document, View, Font } from '@react-pdf/renderer';
+import {Page, Text, Document, Image, View, Font } from '@react-pdf/renderer';
+import companyLogo from './GMR_LOGO.jpg';
 
 Font.register({
   family: 'Roboto',
@@ -18,6 +19,9 @@ const MyDocument = ({ names, winner }) => {
       marginBottom: 20,
       fontWeight: 'bold',
       textAlign: 'center',
+    },
+    logo: {
+      marginBottom: 20,
     },
     table: {
       display: 'table',
@@ -51,23 +55,20 @@ const MyDocument = ({ names, winner }) => {
       textAlign: 'center',
       padding: 8,
     },
-    winnerContainer: {
+    winnerLabel: {
       marginTop: 20,
       textAlign: 'center',
-    },
-    winnerLabel: {
       fontSize: 20,
       fontWeight: 'bold',
     },
-    winnerDetails: {
-      fontSize: 14,
-      marginTop: 8,
-    },
   };
+
+  const currentDateTime = new Date().toLocaleString();
 
   return (
     <Document>
       <Page style={styles.page}>
+        <Image src={companyLogo} style={styles.logo} />
         <Text style={styles.heading2}>GMR Random Picker</Text>
         <View style={styles.table}>
           <View style={styles.tableRow}>
@@ -85,12 +86,24 @@ const MyDocument = ({ names, winner }) => {
             </View>
           ))}
         </View>
+        <Text style={styles.winnerLabel}>Winner:</Text>
         {winner && (
-          <View style={styles.winnerContainer}>
-            <Text style={styles.winnerLabel}>Winner:</Text>
-            <Text style={styles.winnerDetails}>| Date: {winner.date} | Name: {winner.name} | Staff ID: {winner.staffId} | Shift: {winner.shiftTimings} |</Text>
+          <View style={styles.table}>
+            <View style={styles.tableRow}>
+              <Text style={styles.tableColHeader}>Date</Text>
+              <Text style={styles.tableColHeader}>Name</Text>
+              <Text style={styles.tableColHeader}>Staff ID</Text>
+              <Text style={styles.tableColHeader}>Shift Timings</Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={styles.tableCol}>{winner.date}</Text>
+              <Text style={styles.tableCol}>{winner.name}</Text>
+              <Text style={styles.tableCol}>{winner.staffId}</Text>
+              <Text style={styles.tableCol}>{winner.shiftTimings}</Text>
+            </View>
           </View>
         )}
+        <Text style={{ textAlign: 'center', marginTop: 'auto' }}>Generated on: {currentDateTime}</Text>
       </Page>
     </Document>
   );
